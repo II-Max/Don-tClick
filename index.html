@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Kim Ngân ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- CẤU HÌNH CHUNG --- */
+        :root {
+            --primary: #ff69b4;
+            --secondary: #d63384;
+            --bg: #ffe6f2;
+            --paper: #fffdf5;
+            --book-w: 700px;
+            --book-h: 500px;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg);
+            height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+            background-image: radial-gradient(#ffb7c5 15%, transparent 16%),
+                              radial-gradient(#ffb7c5 15%, transparent 16%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+        }
+
+        /* --- 1. MÀN HÌNH KHÓA (LOCK SCREEN) --- */
+        #lock-screen {
+            display: flex;
+            width: 750px; height: 420px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 1s ease, opacity 1s ease;
+            overflow: hidden;
+        }
+        
+        .lock-img { flex: 1; overflow: hidden; position: relative; }
+        .lock-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 3s; }
+        .lock-img:hover img { transform: scale(1.1); }
+        
+        .lock-pad {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; padding: 30px;
+            background: #fff;
+        }
+        
+        .welcome-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 32px; color: var(--secondary); margin-bottom: 5px;
+        }
+        
+        .hint-text {
+            font-size: 14px; color: #888; margin-bottom: 20px; font-style: italic;
+        }
+
+        .display {
+            width: 70%; height: 45px; background: #f8f9fa; border-radius: 25px;
+            margin-bottom: 25px; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; color: var(--primary); letter-spacing: 5px;
+            border: 2px solid #ffeff6;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .key {
+            width: 55px; height: 55px; border-radius: 50%; border: none;
+            background: white; font-size: 18px; font-weight: bold; color: #555;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.2s;
+        }
+        .key:hover { background: var(--primary); color: white; transform: translateY(-3px); }
+        .key:active { transform: scale(0.9); }
+        
+        .shake { animation: shake 0.4s; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%,75%{transform:translateX(-10px)} 50%{transform:translateX(10px)} }
+
+        /* --- 2. SÁCH 3D --- */
+        #book-container {
+            display: none;
+            position: relative;
+            width: var(--book-w); height: var(--book-h);
+            perspective: 2000px;
+            animation: bookUp 1.5s forwards;
+            z-index: 10;
+        }
+        @keyframes bookUp { from {transform: translateY(100vh) scale(0.5);} to {transform: translateY(0) scale(1);} }
+
+        .book {
+            position: relative; width: 100%; height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        /* LỚP NỀN TRÁI (Ảnh 1) */
+        .base-left {
+            position: absolute; width: 50%; height: 100%; top: 0; left: 0;
+            background: #fff0f5; z-index: 0;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: inset -5px 0 10px rgba(0,0,0,0.05);
+        }
+
+        /* CÁC TRANG GIẤY */
+        .paper {
+            position: absolute; width: 50%; height: 100%; top: 0; left: 50%;
+            transform-origin: left center; transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+        }
+        .paper.flipped { transform: rotateY(-180deg); }
+
+        /* Z-INDEX QUẢN LÝ LỚP */
+        #p1 { z-index: 10; } #p1.flipped { z-index: 11; }
+        #p2 { z-index: 9; } #p2.flipped { z-index: 12; }
+        #p3 { z-index: 8; } #p3.flipped { z-index: 13; }
+        #p4 { z-index: 7; } #p4.flipped { z-index: 14; }
+
+        .front, .back {
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+            background: var(--paper); backface-visibility: hidden;
+            overflow: hidden; box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        .front { z-index: 2; border-radius: 0 10px 10px 0; }
+        .back { z-index: 1; transform: rotateY(180deg); border-radius: 10px 0 0 10px; background: #fff0f5; }
+
+        /* NỘI DUNG */
+        .photo-content {
+            width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative;
+        }
+        .photo-frame {
+            width: 85%; height: 80%; background: white; padding: 10px 10px 40px 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15); transform: rotate(-3deg); transition: 0.3s;
+        }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-frame:hover { transform: scale(1.02) rotate(0deg); }
+
+        .text-content {
+            padding: 35px; text-align: justify;
+            background-image: url("https://www.transparenttextures.com/patterns/notebook.png");
+            height: 100%; box-sizing: border-box; display: flex; flex-direction: column;
+        }
+        .text-content h2 {
+            font-family: 'Dancing Script', cursive; color: var(--secondary);
+            font-size: 28px; text-align: center; border-bottom: 2px dashed #ffb7c5;
+            padding-bottom: 8px; margin-top: 0;
+        }
+        .text-content p { font-size: 15px; line-height: 1.7; color: #555; }
+        
+        .sticker { position: absolute; width: 60px; pointer-events: none; opacity: 0.9; }
+        .st-tl { top: 10px; left: 10px; transform: rotate(-30deg); }
+        .st-br { bottom: 10px; right: 10px; transform: rotate(30deg); }
+
+        /* --- 3. BỨC THƯ CUỐI CÙNG (FINAL LETTER) --- */
+        #final-letter {
+            display: none; position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 650px; max-width: 90%; max-height: 85vh;
+            background: #fff; padding: 40px; border-radius: 5px;
+            box-shadow: 0 0 50px rgba(255, 105, 180, 0.5); z-index: 2000;
+            text-align: center; overflow-y: auto;
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+            border: 1px solid #e0c0d0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        /* Update class show-final để hỗ trợ transition mượt */
+        .show-final { 
+            transform: translate(-50%, -50%) scale(1) !important; 
+            opacity: 1 !important; 
+        }
+
+        .final-sig {
+            font-family: 'Dancing Script', cursive; font-size: 24px; color: var(--secondary); margin-top: 20px; text-align: right;
+        }
+
+        /* Nút đóng thư */
+        .close-btn {
+            position: absolute; top: 10px; right: 15px;
+            font-size: 24px; color: #aaa; cursor: pointer;
+            transition: color 0.3s;
+        }
+        .close-btn:hover { color: var(--secondary); }
+
+        /* Responsive Mobile */
+        @media(max-width: 768px) {
+            :root { --book-w: 95vw; --book-h: 60vh; }
+            #lock-screen { width: 90%; height: auto; flex-direction: column; }
+            .lock-img { height: 180px; }
+            .text-content { padding: 20px; }
+            .text-content p { font-size: 14px; }
+        }
+        
+        /* Hiệu ứng hoa rơi */
+        .flower { position: absolute; top: -50px; font-size: 25px; animation: fall linear forwards; z-index: 5000; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="lock-screen">
+        <div class="lock-img">
+            <img src="anh/anhdau.png" alt="Couple">
+        </div>
+        <div class="lock-pad">
+            <div class="welcome-text">Chào Kim Ngân ❤️</div>
+            <div class="hint-text">Ngày đầu tiên em khóc trong đời?</div>
+            
+            <div class="display" id="display"></div>
+            
+            <div class="keys">
+                <button class="key" onclick="press('1')">1</button>
+                <button class="key" onclick="press('2')">2</button>
+                <button class="key" onclick="press('3')">3</button>
+                <button class="key" onclick="press('4')">4</button>
+                <button class="key" onclick="press('5')">5</button>
+                <button class="key" onclick="press('6')">6</button>
+                <button class="key" onclick="press('7')">7</button>
+                <button class="key" onclick="press('8')">8</button>
+                <button class="key" onclick="press('9')">9</button>
+                <button class="key" onclick="clearDisplay()" style="background:#fff0f5"><i class="fas fa-backspace"></i></button>
+                <button class="key" onclick="press('0')">0</button>
+                <button class="key" onclick="checkPass()" style="background:var(--secondary); color:white"><i class="fas fa-heart"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="book-container">
+        <div class="book">
+            
+            <div class="base-left">
+                <div class="photo-content">
+                    <img src="https://cdn-icons-png.flaticon.com/512/346/346167.png" class="sticker st-tl">
+                    <div class="photo-frame"><img src="anh/anh1.png" onerror="this.src='https://via.placeholder.com/300x400?text=Kim+Ngân+1'"></div>
+                </div>
+            </div>
+
+            <div class="paper" id="p1" onclick="flip(1)">
+                <div class="front text-content">
+                    <h2>Gửi Ngân Bé Nhỏ 💊</h2>
+                    <p>Chào Kim Ngân, cô gái tháng 11 của tớ.</p>
+                    <p>Điều đầu tiên tớ muốn chúc Ngân chính là sức khỏe. Nhớ ăn uống đầy đủ, đừng bỏ bữa sáng và hạn chế thức khuya học bài nhé. Có sức khỏe thì Ngân mới luôn xinh tươi và rạng rỡ được!</p>
+                    <p style="text-align:center; color:#bbb; margin-top:auto; font-size:12px;">(Nhấn để lật trang)</p>
+                </div>
+                <div class="back">
+                    <div class="photo-content">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2920/2920072.png" class="sticker st-br">
+                        <div class="photo-frame"><img src="anh/anh2.png" onerror="this.src='https://via.placeholder.com/300x400?text=Kim+Ngân+2'"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="paper" id="p2" onclick="flip(2)">
+                <div class="front text-content">
+                    <h2>Tuổi 19 Rực Rỡ 📚</h2>
+                    <p>Chúc Ngân luôn giữ vững phong độ trong học tập.</p>
+                    <p>Deadline dù có nhiều đến đâu cũng sẽ bị Ngân "xử đẹp". Cố gắng lên nhé, tương lai đang rộng mở chờ đón cậu. Nhưng nếu mệt quá, hãy nhớ luôn có tớ ở đây để lắng nghe cậu than thở.</p>
+                </div>
+                <div class="back">
+                    <div class="photo-content">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" class="sticker st-tl">
+                        <div class="photo-frame"><img src="anh/anh3.png" onerror="this.src='https://via.placeholder.com/300x400?text=Kim+Ngân+3'"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="paper" id="p3" onclick="flip(3)">
+                <div class="front text-content">
+                    <h2>Chuyện Chúng Mình ❤️</h2>
+                    <p>Cảm ơn Kim Ngân đã xuất hiện.</p>
+                    <p>Mỗi khoảnh khắc bên Ngân đều là những kỷ niệm đẹp nhất. Tớ mong rằng tình yêu của chúng mình sẽ luôn bình yên, thấu hiểu và bền lâu như thế này. Yêu Ngân nhiều lắm!</p>
+                </div>
+                <div class="back">
+                    <div class="photo-content">
+                        <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" class="sticker st-br">
+                        <div class="photo-frame"><img src="anh/anh4.png" onerror="this.src='https://via.placeholder.com/300x400?text=Kim+Ngân+4'"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="paper" id="p4" onclick="flip(4)">
+                <div class="front text-content">
+                    <h2>Lời Kết 🌹</h2>
+                    <p>Món quà nhỏ này tớ tự tay làm dành riêng cho Ngân.</p>
+                    <p>Chúc Ngân một ngày Valentine thật hạnh phúc. Hãy nhấn vào đây một lần nữa để xem điều bất ngờ cuối cùng nhé!</p>
+                </div>
+                <div class="back" style="background: #fff0f5;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="final-letter">
+        <div class="close-btn" onclick="closeFinalLetter()">&times;</div>
+        
+        <h1 style="font-family:'Playfair Display', serif; color: var(--secondary); margin-bottom: 20px;">My Dearest Kim Ngân</h1>
+        <p style="font-size: 16px; line-height: 1.8; color: #444; font-style: italic;">
+            "Cảm ơn em vì đã kiên nhẫn mở từng trang sách này. <br>
+            Tớ không giỏi nói những lời hoa mỹ, nhưng tớ muốn Ngân biết rằng, em là điều tuyệt vời nhất mà tớ may mắn có được. <br><br>
+            Mong rằng tuổi mới, năm mới và nhiều năm sau nữa, người nắm tay Ngân đi tiếp vẫn sẽ là tớ."
+        </p>
+        <div class="final-sig">
+            <p>Happy Valentine's Day!</p>
+            <p style="color: var(--primary);">Chung Đẹp Trai</p>
+        </div>
+        <div style="margin-top: 30px; font-size: 30px;">💖</div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="nhacnen/nen.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // --- LOGIC MẬT KHẨU ---
+        let pass = "";
+        const CORRECT = "0411"; // Ngày sinh Kim Ngân
+        const display = document.getElementById("display");
+        const lock = document.getElementById("lock-screen");
+        const bookContainer = document.getElementById("book-container");
+        const music = document.getElementById("bg-music");
+
+        function press(n) {
+            if(pass.length < 4) {
+                pass += n;
+                // Hiển thị tim thay vì số
+                display.innerHTML = pass.split('').map(() => '<i class="fas fa-heart" style="margin:0 5px; font-size:16px"></i>').join('');
+            }
+        }
+        function clearDisplay() { pass = ""; display.innerHTML = ""; }
+        
+        function checkPass() {
+            if(pass === CORRECT) {
+                // Hiệu ứng mở khóa thành công
+                lock.style.transform = "translateY(-100vh)";
+                lock.style.opacity = "0";
+                
+                // Phát nhạc
+                music.play().catch(()=>{ console.log("Music interaction needed"); });
+                
+                // Mưa hoa
+                createRain();
+
+                setTimeout(() => {
+                    lock.style.display = "none";
+                    bookContainer.style.display = "block";
+                }, 800);
+            } else {
+                // Báo lỗi rung lắc
+                lock.classList.add("shake");
+                setTimeout(() => lock.classList.remove("shake"), 400);
+                pass = ""; display.innerHTML = "";
+            }
+        }
+
+        // --- LOGIC LẬT SÁCH (Cập nhật: Lật 2 chiều) ---
+        let currentPage = 1;
+        const totalPages = 4;
+        const finalLetter = document.getElementById("final-letter");
+
+        function flip(pageNum) {
+            const el = document.getElementById(`p${pageNum}`);
+
+            // TRƯỜNG HỢP 1: LẬT MỞ (Từ Phải sang Trái)
+            // Điều kiện: Trang chưa bị lật VÀ đó là trang hiện tại
+            if (!el.classList.contains("flipped") && pageNum === currentPage) {
+                el.classList.add("flipped");
+                currentPage++;
+                
+                // Nếu là trang cuối cùng -> Hiện thư lớn
+                if (pageNum === totalPages) {
+                    setTimeout(openFinalLetter, 800);
+                }
+            }
+            // TRƯỜNG HỢP 2: LẬT LẠI (Từ Trái sang Phải)
+            // Điều kiện: Trang đã bị lật VÀ đó là trang liền trước trang hiện tại
+            else if (el.classList.contains("flipped") && pageNum === currentPage - 1) {
+                el.classList.remove("flipped");
+                currentPage--;
+            }
+        }
+
+        // --- LOGIC THƯ CUỐI ---
+        function openFinalLetter() {
+            bookContainer.style.transition = "opacity 0.5s";
+            bookContainer.style.opacity = "0";
+            setTimeout(() => {
+                bookContainer.style.display = "none";
+                finalLetter.style.display = "block";
+                // Kích hoạt animation
+                void finalLetter.offsetWidth; 
+                finalLetter.classList.add("show-final");
+                createRain();
+            }, 500);
+        }
+
+        function closeFinalLetter() {
+            // Ẩn thư
+            finalLetter.classList.remove("show-final");
+            finalLetter.style.display = "none";
+
+            // Hiện lại sách
+            bookContainer.style.display = "block";
+            // Kích hoạt transition opacity
+            setTimeout(() => {
+                bookContainer.style.opacity = "1";
+            }, 50);
+
+            // Tự động đóng trang cuối lại một chút để tạo cảm giác "quay lại"
+            const lastPage = document.getElementById(`p${totalPages}`);
+            if (lastPage.classList.contains("flipped")) {
+                lastPage.classList.remove("flipped");
+                currentPage--;
+            }
+        }
+
+        // --- HIỆU ỨNG MƯA HOA ---
+        function createRain() {
+            const icons = ['🌸', '🌹', '💐', '🩷', '✨', '🎀'];
+            for(let i=0; i<35; i++) {
+                setTimeout(() => {
+                    const el = document.createElement("div");
+                    el.classList.add("flower");
+                    el.innerText = icons[Math.floor(Math.random() * icons.length)];
+                    el.style.left = Math.random() * 100 + "vw";
+                    el.style.animationDuration = Math.random() * 3 + 2 + "s";
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 5000);
+                }, i * 150);
+            }
+        }
+    </script>
+</body>
+</html>
