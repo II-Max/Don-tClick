@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Một bức tâm thư từ trái tim — giữa bóng tối thất tình và ánh sáng hy vọng">
+  <title>Tâm Thư — Giữa Bóng Tối Và Ánh Sáng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ═══════════════ RAIN CANVAS ═══════════════ -->
+  <canvas id="rainCanvas"></canvas>
+
+  <!-- ═══════════════ PARTICLE CANVAS (LIGHT PHASE) ═══════════════ -->
+  <canvas id="lightCanvas"></canvas>
+
+  <!-- ═══════════════ SCROLL INDICATOR ═══════════════ -->
+  <div class="scroll-indicator" id="scrollIndicator">
+    <div class="scroll-mouse">
+      <div class="scroll-wheel"></div>
+    </div>
+    <span>Cuộn xuống để đọc</span>
+  </div>
+
+  <!-- ═══════════════ PHASE INDICATOR ═══════════════ -->
+  <div class="phase-nav" id="phaseNav">
+    <div class="phase-dot active" data-phase="dark" title="Bóng Tối"></div>
+    <div class="phase-line"></div>
+    <div class="phase-dot" data-phase="light" title="Ánh Sáng"></div>
+  </div>
+
+  <!-- ═══════════════ DARK PHASE — HEARTBREAK ═══════════════ -->
+  <section class="phase phase--dark" id="darkPhase">
+
+    <!-- Hero -->
+    <div class="hero" id="heroSection">
+      <div class="hero__shatter-overlay"></div>
+      <div class="hero__content">
+        <div class="hero__subtitle reveal-text">Một bức thư từ trái tim</div>
+        <h1 class="hero__title glitch-text" data-text="Tâm Thư">Tâm Thư</h1>
+        <div class="hero__divider"></div>
+        <p class="hero__tagline reveal-text">Giữa bóng tối thất tình<br>và ánh sáng hy vọng</p>
+      </div>
+      <div class="hero__heartbeat">
+        <svg viewBox="0 0 200 60" class="heartbeat-line">
+          <polyline points="0,30 30,30 40,30 50,10 60,50 70,30 80,30 90,30 100,30 110,30 120,10 130,50 140,30 150,30 160,30 170,30 200,30" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Dark Intro -->
+    <div class="section section--dark-intro">
+      <div class="container">
+        <div class="broken-heart-icon reveal-element">
+          <svg viewBox="0 0 100 90" class="broken-heart">
+            <path class="heart-left" d="M50,85 L5,45 C-5,30 0,10 20,10 C35,10 45,22 50,30" />
+            <path class="heart-right" d="M50,85 L95,45 C105,30 100,10 80,10 C65,10 55,22 50,30" />
+            <line class="heart-crack" x1="50" y1="30" x2="48" y2="50" />
+            <line class="heart-crack" x1="48" y1="50" x2="52" y2="65" />
+            <line class="heart-crack" x1="52" y1="65" x2="50" y2="85" />
+          </svg>
+        </div>
+        <h2 class="section__title reveal-element">Phần I — Bóng Tối</h2>
+        <p class="section__desc reveal-element">
+          Có những ngày, trời không mưa nhưng lòng anh thì lại ướt đẫm.<br>
+          Có những đêm, thành phố đông đúc nhưng anh lại thấy mình cô đơn nhất.
+        </p>
+      </div>
+    </div>
+
+    <!-- Quote 1 -->
+    <div class="section section--quote" id="quote1">
+      <div class="container">
+        <div class="quote-card quote-card--dark reveal-element">
+          <div class="quote-card__number">01</div>
+          <div class="quote-card__line"></div>
+          <blockquote class="quote-card__text typewriter" data-text="Anh từng nói là anh sẽ đợi em, em thấy đấy anh vẫn còn ở đây mà.">
+            <span class="typewriter-cursor">|</span>
+          </blockquote>
+          <div class="quote-card__emotion">
+            <span class="emotion-tag">chờ đợi</span>
+            <span class="emotion-tag">kiên nhẫn</span>
+            <span class="emotion-tag">cô đơn</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quote 2 -->
+    <div class="section section--quote" id="quote2">
+      <div class="container">
+        <div class="quote-card quote-card--dark reveal-element">
+          <div class="quote-card__number">02</div>
+          <div class="quote-card__line"></div>
+          <blockquote class="quote-card__text typewriter" data-text="Anh từng nói là anh sẽ trở nên tốt hơn, anh vẫn đang cố gắng mỗi ngày, mọi thứ dần trở nên suôn sẻ, trừ việc em rời đi.">
+            <span class="typewriter-cursor">|</span>
+          </blockquote>
+          <div class="quote-card__emotion">
+            <span class="emotion-tag">cố gắng</span>
+            <span class="emotion-tag">nỗ lực</span>
+            <span class="emotion-tag">đau lòng</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quote 3 -->
+    <div class="section section--quote" id="quote3">
+      <div class="container">
+        <div class="quote-card quote-card--dark reveal-element">
+          <div class="quote-card__number">03</div>
+          <div class="quote-card__line"></div>
+          <blockquote class="quote-card__text typewriter" data-text="Anh từng nói là anh sẽ mãi thương em, nhưng em ơi, nếu ánh mắt có thể ôm, anh đã ôm bóng lưng ấy vô số lần..">
+            <span class="typewriter-cursor">|</span>
+          </blockquote>
+          <div class="quote-card__emotion">
+            <span class="emotion-tag">thương nhớ</span>
+            <span class="emotion-tag">nuối tiếc</span>
+            <span class="emotion-tag">vô vọng</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark Closing -->
+    <div class="section section--dark-close">
+      <div class="container">
+        <p class="dark-close__text reveal-element">
+          Anh biết rằng bóng tối không kéo dài mãi...<br>
+          Nhưng trong bóng tối ấy, anh vẫn giữ một ngọn lửa nhỏ...<br>
+          Đó là hy vọng.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ TRANSITION ═══════════════ -->
+  <section class="transition-zone" id="transitionZone">
+    <div class="transition-zone__content">
+      <div class="sunrise-circle"></div>
+      <p class="transition-text reveal-element">Và rồi... bình minh cũng đến.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ LIGHT PHASE — HOPE ═══════════════ -->
+  <section class="phase phase--light" id="lightPhase">
+
+    <!-- Light Intro -->
+    <div class="section section--light-intro">
+      <div class="container">
+        <div class="healed-heart-icon reveal-element">
+          <svg viewBox="0 0 100 90" class="healed-heart">
+            <path d="M50,85 L5,45 C-5,30 0,10 20,10 C35,10 45,22 50,30 C55,22 65,10 80,10 C100,10 105,30 95,45 Z" />
+          </svg>
+        </div>
+        <h2 class="section__title section__title--light reveal-element">Phần II — Ánh Sáng</h2>
+        <p class="section__desc section__desc--light reveal-element">
+          Dù cho bóng tối có bao trùm bao lâu,<br>
+          anh vẫn tin rằng một ngày nào đó...<br>
+          chúng ta sẽ lại nhìn nhau và mỉm cười.
+        </p>
+      </div>
+    </div>
+
+    <!-- Light Message -->
+    <div class="section section--light-message">
+      <div class="container">
+        <div class="light-card reveal-element">
+          <div class="light-card__glow"></div>
+          <p class="light-card__text">
+            Anh không hoàn hảo, anh biết điều đó.<br><br>
+            Nhưng mỗi ngày trôi qua, anh đều cố gắng trở thành phiên bản tốt hơn —
+            không chỉ vì anh, mà còn vì ngày mà em quay lại.<br><br>
+            Anh vẫn ở đây. Vẫn đợi. Vẫn thương.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final -->
+    <div class="section section--final">
+      <div class="container">
+        <div class="final-message reveal-element">
+          <h2 class="final-message__title">Gửi em,</h2>
+          <p class="final-message__text">
+            Nếu một ngày em đọc được những dòng này,<br>
+            hãy biết rằng... <strong>anh vẫn còn ở đây mà.</strong>
+          </p>
+          <div class="final-message__signature">
+            <div class="signature-line"></div>
+            <span>— Từ người vẫn đợi em —</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__hearts">
+        <span>♡</span><span>♡</span><span>♡</span>
+      </div>
+      <p class="footer__text">Viết bằng cả trái tim</p>
+    </footer>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
